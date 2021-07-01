@@ -44,6 +44,30 @@ identity-correction-for-post: true
 
 directive:
   - where:
-      subject: AksAgentPool|AksAgentPoolAvailableAgentPoolVersion|AksManagedClusterAccessProfile|AksManagedClusterAdminCredentials|AksManagedClusterMonitoringUserCredentials|AksManagedClusterUserCredentials|AksPrivateEndpointConnection|AksPrivateLinkResource|AksResolvePrivateLinkServiceId|AksRotateManagedClusterCertificate
+      subject: ^AgentPool$|^AgentPoolAvailableAgentPoolVersion$|^ManagedClusterAccessProfile$|^ManagedClusterAdminCredentials$|^ManagedClusterMonitoringUserCredentials$|^ManagedClusterUserCredentials$|^PrivateEndpointConnection$|^PrivateLinkResource$|^ResolvePrivateLinkServiceId$|^RotateManagedClusterCertificate$|^ManagedClusterAadProfile$|^ManagedClusterServicePrincipalProfile$|^AgentPoolNodeImageVersion$|^ManagedClusterTag$
     remove: true
+  - where:
+      subject: ^ManagedCluster$
+      verb: Get|New|Set|Remove
+    remove: true
+  - where:
+      subject: ^ManagedCluster$
+      parameter-name: ResourceName
+    set:
+      parameter-name: Name
+      alias: ClusterName
+  - where:
+      subject: ManagedCluster
+    set:
+      subject: Cluster
+  - where:
+      subject: AgentPoolUpgradeProfile
+    set:
+      subject: NodePoolUpgradeProfile
+  - where:
+      subject: ManagedClusterUpgradeProfile
+      verb: Get
+    set:
+      subject: UpgradeProfile
+      alias: Get-AzAksClusterUpgradeProfile
 ```
